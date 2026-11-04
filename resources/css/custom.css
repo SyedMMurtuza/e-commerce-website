@@ -112,7 +112,7 @@ header {
 
 .home_sec {
     position: relative;
-    height: 680px;
+    height: 610px;
 }
 
 .home_sec .hero_img {
@@ -758,4 +758,63 @@ span.grid_badge {
 
 .qty_box input[type=number] {
     -moz-appearance: textfield;
+}
+
+.hover_card img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    transition: 0.8s ease-in-out;
+}
+
+.hover_card img:hover {
+    border-radius: 999px;
+}
+
+.hover_box {
+    position: relative;
+}
+
+.hover_box img {
+    width: 100%;
+    display: block;
+}
+
+.btn_group {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.pill_btn {
+    color: #fff;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    padding: 8px 24px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.extra_btn {
+    opacity: 0;
+    max-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.hover_box:hover .extra_btn {
+    opacity: 1;
+    max-height: 50px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: #fff;
+    color: #000;
 }

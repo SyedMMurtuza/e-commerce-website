@@ -7,4 +7,6 @@
         <h1>Hello <i class="fa-solid fa-heart"></i></h1>
     </div> --}}
     <x-home-hero></x-home-hero>
+    <x-hover-card></x-hover-card>
+    <x-home-slider></x-home-slider>
 @endsection
