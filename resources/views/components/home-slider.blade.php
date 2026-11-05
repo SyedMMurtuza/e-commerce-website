@@ -1,32 +1,77 @@
-<section class="home_slider">
+@php
+    $slider = [
+        [
+            'image' => 'slider-1.webp',
+            'heading' => "WOMEN'S CANVAS CRUISER SLIP ON",
+            'para' => 'Warm White',
+            'price' => '$75',
+            'label' => 'new',
+        ],
+        [
+            'image' => 'slider-2.webp',
+            'heading' => "WOMEN'S Tree Runner NZ",
+            'para' => 'Medium Grey',
+            'price' => '$100',
+            'label' => 'old',
+        ],
+        [
+            'image' => 'slider-3.webp',
+            'heading' => "MEN'S RUNNER NZ SLIP ON",
+            'para' => 'Mushroom',
+            'price' => '$105',
+            'label' => 'new',
+        ],
+        [
+            'image' => 'slider-4.webp',
+            'heading' => "MEN'S RUNNER NZ SLIP ON",
+            'para' => 'Anthracite',
+            'price' => '$105',
+            'label' => 'new',
+        ],
+        [
+            'image' => 'slider-5.webp',
+            'heading' => "WOMEN'S RUNNER NZ SLIP ON",
+            'para' => 'Dark Navy',
+            'price' => '$105',
+            'label' => 'new',
+        ],
+        [
+            'image' => 'slider-6.webp',
+            'heading' => "WOMEN'S CANVAS CRUISER ",
+            'para' => 'Sea Spray',
+            'price' => '$75',
+            'label' => 'old',
+        ],
+    ];
+@endphp
 
-    <div class="your-class">
-        <div><img src="/assets/images/shoes/slider-1.webp" alt=""></div>
-        <div><img src="/assets/images/shoes/slider-1.webp" alt=""></div>
-        <div><img src="/assets/images/shoes/slider-1.webp" alt=""></div>
-
-    </div>
-
-    {{-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="/assets/images/shoes/slider-1.webp" alt="First slide">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src=".../800x400?auto=yes&bg=666&fg=444&text=Second slide"
-                    alt="Second slide">
-            </div>
-            <div class="carousel-item">
-                <img class="d-block w-100" src=".../800x400?auto=yes&bg=555&fg=333&text=Third slide" alt="Third slide">
+<section class="best_sellers">
+    <div class="container-fluid">
+        <div class="best_sellers_head d-flex justify-content-between align-items-center">
+            <h2>BEST SELLERS</h2>
+            <div class="slider-arrows">
+                <button class="prev-btn"><i class="fa-solid fa-chevron-left"></i></button>
+                <button class="next-btn"><i class="fa-solid fa-chevron-right"></i></button>
             </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div> --}}
+
+        <div class="product-slider">
+            @foreach ($slider as $item)
+                <div class="product-card">
+                    @if (($item['label'] ?? 'new') === 'new')
+                        <span class="badge-new">NEW</span>
+                    @endif
+
+                    <img src="{{ asset('assets/images/shoes/' . $item['image']) }}" alt="{{ $item['heading'] }}">
+                    <h3>{{ $item['heading'] }}</h3>
+                    <p>{{ $item['para'] }}</p>
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ $item['price'] }}</strong>
+                        <span style="    display: flex;gap: 5px;align-items: center;">
+                            <i class="fa-solid fa-bag-shopping" style="font-size: 12px"></i>QUICK ADD</span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
 </section>

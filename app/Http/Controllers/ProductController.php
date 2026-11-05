@@ -28,6 +28,7 @@ class ProductController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|max:255',
+            'gender' => 'required|in:men,women',
             'price' => 'required|numeric|min:0',
             'tags'  => 'nullable|max:255',
             'badge' => 'nullable|in:new,old',
@@ -59,6 +60,7 @@ class ProductController extends Controller
 
         $data = $request->validate([
             'title' => 'required|max:255',
+            'gender' => 'required|in:men,women',
             'price' => 'required|numeric|min:0',
             'tags'  => 'nullable|max:255',
             'badge' => 'nullable|in:new,old',

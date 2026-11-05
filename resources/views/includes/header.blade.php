@@ -26,12 +26,25 @@
         <ul class="nav-links list-unstyled d-flex gap-4 mb-0">
             <li><a href="#">NEW ARRIVALS</a></li>
             <li><a href="{{ route('shop') }}">SHOP ALL</a></li>
-            <li><a href="#">MEN</a></li>
-            <li><a href="#">WOMEN</a></li>
+            <li><a href="{{ route('men') }}">MEN</a></li>
+            <li><a href="{{ route('women') }}">WOMEN</a></li>
         </ul>
 
         <div class="nav-icons d-flex align-items-center gap-3">
-            <i class="fa-solid fa-magnifying-glass"></i>
+
+
+            <form action="{{ route('search') }}" method="GET">
+                <div class="d-flex gap-0 align-items-center position-relative">
+                    <input type="search" name="bird" id="bird" class="form-control " placeholder="Search here"
+                        value="{{ request('bird') }}"><i class="fa-solid fa-magnifying-glass"
+                        style="position: absolute; right: 14px;"></i>
+                    {{-- <button type="submit" class="border-0 bg-dark text-white"
+                        style="padding: 10px; border-radius: 8px; margin-left: -20px;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button> --}}
+                </div>
+            </form>
+
             <button type="button" class="cart_btn" data-bs-toggle="offcanvas" data-bs-target="#cartDrawer">
                 <i class="fa-solid fa-bag-shopping"></i>
                 @if ($cartCount > 0)

@@ -49,6 +49,15 @@
                     <input type="number" step="1" name="quantity" class="form-control mb-3"
                         placeholder="Enter Quantity" value="{{ old('quantity', $product->quantity ?? '') }}">
                 </div>
+                <div class="col-lg-6">
+                    <label for="gender">Gender:</label>
+                    <select name="gender" id="gender" class="form-control mb-3" required>
+                        <option value="men" {{ old('gender', $product->gender ?? 'men') == 'men' ? 'selected' : '' }}>
+                            Men</option>
+                        <option value="women" {{ old('gender', $product->gender ?? '') == 'women' ? 'selected' : '' }}>
+                            Women</option>
+                    </select>
+                </div>
             </div>
 
             <div class="mb-3">

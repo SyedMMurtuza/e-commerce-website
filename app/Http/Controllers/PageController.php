@@ -30,4 +30,23 @@ class PageController extends Controller
 
         return view('thankyou', compact('orderNumber'));
     }
+    public function men()
+    {
+        $products = Shop::where('gender', 'men')->latest()->get();
+        return view('men', compact('products'));
+    }
+
+    public function women()
+    {
+        $products = Shop::where('gender', 'women')->latest()->get();
+        return view('women', compact('products'));
+    }
+
+    public function search(Request $request)
+    {
+        $word = $request->bird;
+        $shops = Shop::where('title', 'like', '%' . $word . '%')->get();
+
+        return view('search', compact('shops', 'word'));
+    }
 }

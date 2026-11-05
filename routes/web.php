@@ -20,6 +20,9 @@ Route::get('/thank-you', [PageController::class, 'thankYou'])->name('thankyou');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::get('/shop/{slug}', [PageController::class, 'shopDetail'])->name('shop.detail');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::get('/men', [PageController::class, 'men'])->name('men');
+Route::get('/women', [PageController::class, 'women'])->name('women');
+Route::get('/search', [PageController::class, 'search'])->name('search');
 
 
 Route::middleware('guest')->group(function () {

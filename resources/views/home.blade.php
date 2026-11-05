@@ -9,4 +9,6 @@
     <x-home-hero></x-home-hero>
     <x-hover-card></x-hover-card>
     <x-home-slider></x-home-slider>
+    <x-home-collection></x-home-collection>
+    <x-home-info></x-home-info>
 @endsection

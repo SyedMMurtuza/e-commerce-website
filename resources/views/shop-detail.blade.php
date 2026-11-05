@@ -72,5 +72,6 @@
             </div>
         </div>
     </div>
-    </div>
+    <x-home-slider></x-home-slider>
+    <x-home-info></x-home-info>
 @endsection
