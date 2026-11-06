@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 
@@ -34,7 +35,11 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/customer-dashboard', [PageController::class, 'customerDashboard'])->name('customer.dashboard');
+    Route::get('/customer-dashboard/order-detail', [CustomerController::class, 'OrderDetail'])->name('customer.OrderDetai');
+});
 
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
     Route::get('/admin/orders', [AdminController::class, 'order'])->name('admin.orders.index');
     Route::get('/admin/shop', [ProductController::class, 'index'])->name('admin.shop');

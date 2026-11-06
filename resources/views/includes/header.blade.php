@@ -51,7 +51,13 @@
                     <span class="cart_count bg-danger text-white">{{ $cartCount }}</span>
                 @endif
             </button>
+            @auth
+                <a href="{{ route('customer.dashboard') }}"><i class="fa-solid fa-user"></i></a>
+            @else
+                <a href="{{ route('login') }}"><i class="fa-solid fa-user"></i></a>
+            @endauth
         </div>
+
     </nav>
 </header>
 

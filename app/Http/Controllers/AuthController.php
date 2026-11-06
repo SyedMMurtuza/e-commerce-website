@@ -17,18 +17,21 @@ class AuthController extends Controller
     public function signup(Request $request)
     {
         $data = $request->validate([
-            'name'     => 'required|max:255',
+            'first_name'     => 'required|max:255',
+            'last_name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users,email',
             'password' => 'required|min:8|confirmed',
         ]);
 
         $user = User::create([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
-            'password' => Hash::make($data['password']),
+            'first_name' => $data['first_name'],
+            'last_name'  => $data['last_name'],
+            'email'      => $data['email'],
+            'password'   => Hash::make($data['password']),
+            'user_type'  => 'customer',
         ]);
 
-        return redirect()->route('login')->with('success', 'Account has been created, Now u can Login.');
+        return redirect()->route('login')->with('success', 'Account has been created, Now you can Login.');
     }
 
     public function loginForm()
@@ -43,10 +46,14 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended('/admin');
+            if (Auth::user()->user_type === 'admin') {
+                return redirect()->intended('/admin/shop');
+            }
+
+            return redirect()->route('customer.dashboard');
         }
 
         return back()->withErrors(['email' => 'Email or Password is Incorrect.'])->onlyInput('email');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\Shop;
 
@@ -48,5 +50,20 @@ class PageController extends Controller
         $shops = Shop::where('title', 'like', '%' . $word . '%')->get();
 
         return view('search', compact('shops', 'word'));
+    }
+    // public function customerDashboard()
+    // {
+    //     return view('customer.dashboard');
+    // }
+    public function customerDashboard()
+    {
+        $data = OrderItem::with('order')
+            ->whereHas('order', function ($query) {
+                $query->where('user_id', auth()->id());
+            })
+            ->latest()
+            ->get();
+
+        return view('customer.dashboard', compact('data'));
     }
 }
