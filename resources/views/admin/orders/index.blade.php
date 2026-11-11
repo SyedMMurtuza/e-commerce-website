@@ -26,6 +26,7 @@
                         <th>Quantity</th>
                         <th>Created_at</th>
                         <th>Type</th>
+                        <th>Order Status</th>
                         {{-- <th>Action</th> --}}
                     </tr>
                 </thead>
@@ -38,27 +39,23 @@
                             <td>{{ $item->unit_amount }}</td>
                             <td>{{ $item->qty }}</td>
                             <td>{{ $item->created_at }}</td>
-                            <td>{{ $item->user_type }}</td>
-                            {{-- <td>
-                                @if ($item->quantity > 0)
-                                    <span class="badge bg-success">In Stock</span>
-                                @else
-                                    <span class="badge bg-danger">Out of Stock</span>
-                                @endif
-                            </td>
-
-                            <td class="d-flex align-items-center gap-3">
-                                <a href="{{ route('admin.shop.edit', $item->id) }}"
-                                    class="shadow-sm btn btn-info text-white">Edit</a>
-
-                                <form action="{{ route('admin.shop.delete', $item->id) }}" method="POST"
-                                    onsubmit="return confirm('Are you sure you want to delete this?');">
+                            <td>{{ ucfirst($item->order->user->user_type ?? 'Guest') }}</td>
+                            <td>
+                                <form action="{{ route('admin.orders.status', $item->order_id) }}" method="POST"
+                                    class="d-flex gap-2">
                                     @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-warning"><i
-                                            class="fa-solid fa-trash-can"></i></button>
+                                    @method('PUT')
+                                    <select name="order_status" class="form-select form-select-sm">
+                                        @foreach (['pending', 'processing', 'shipped', 'delivered', 'cancelled'] as $status)
+                                            <option value="{{ $status }}"
+                                                {{ ($item->order->order_status ?? 'pending') === $status ? 'selected' : '' }}>
+                                                {{ ucfirst($status) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <button type="submit" class="btn btn-dark btn-sm">Update</button>
                                 </form>
-                            </td> --}}
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>

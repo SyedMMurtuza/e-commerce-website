@@ -38,10 +38,7 @@
                     <input type="search" name="bird" id="bird" class="form-control " placeholder="Search here"
                         value="{{ request('bird') }}"><i class="fa-solid fa-magnifying-glass"
                         style="position: absolute; right: 14px;"></i>
-                    {{-- <button type="submit" class="border-0 bg-dark text-white"
-                        style="padding: 10px; border-radius: 8px; margin-left: -20px;">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button> --}}
+
                 </div>
             </form>
 

@@ -986,3 +986,12 @@ span.grid_badge {
     position: absolute;
     bottom: 10px;
 }
+
+.fa-solid.fa-user {
+    /* border: 2px solid #000000; */
+    padding: 8px;
+    border-radius: 99px;
+    background: #ccc;
+    color: #575757;
+    box-shadow: 0 0.125rem 0.25rem rgb(0 0 0 / 45%);
+}

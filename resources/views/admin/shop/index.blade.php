@@ -25,6 +25,7 @@
                         <th>Quantity</th>
                         <th>Stock Status</th>
                         <th>Gender</th>
+                        {{-- <th>Order Status</th> --}}
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -43,6 +44,7 @@
                                 @endif
                             </td>
                             <td>{{ ucfirst($item->gender) }}</td>
+
 
                             <td class="d-flex align-items-center gap-3">
                                 <a href="{{ route('admin.shop.edit', $item->id) }}"

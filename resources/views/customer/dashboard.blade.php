@@ -6,15 +6,15 @@
 
     <div class="container container-1580 pt-5 pb-5">
         <div class="d-flex justify-content-between gap-2">
-            <div class="front_sidebar bg-white h-50vh d-flex gap-3 flex-column position-relative">
+            <div class="front_sidebar bg-white h-50vh d-flex gap-3 flex-column position-relative shadow-sm">
 
                 <h4>Customer DashBoard</h4>
                 <ul>
 
-                    <a href="">
+                    <a href="{{ route('customer.dashboard') }}">
                         <li>Order Detail</li>
                     </a>
-                    <a href="">
+                    <a href="{{ route('customer.dashboard', ['tab' => 'profile']) }}">
                         <li>Your Profile</li>
                     </a>
 
@@ -31,7 +31,11 @@
                     <p>{{ auth()->user()->email }}</p>
                 </div>
 
-                <x-order-detail :data=$data />
+                @if (request('tab') === 'profile')
+                    <x-profile-form />
+                @else
+                    <x-order-detail :data="$data" />
+                @endif
             </div>
         </div>
     </div>

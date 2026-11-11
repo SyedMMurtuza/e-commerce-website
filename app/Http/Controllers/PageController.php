@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Models\Shop;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
@@ -59,7 +60,7 @@ class PageController extends Controller
     {
         $data = OrderItem::with('order')
             ->whereHas('order', function ($query) {
-                $query->where('user_id', auth()->id());
+                $query->where('user_id', auth::id());
             })
             ->latest()
             ->get();

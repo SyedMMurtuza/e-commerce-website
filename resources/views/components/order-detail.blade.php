@@ -1,5 +1,5 @@
 <section class="ord_detail pt-5 pb-5">
-    <table class="table p-5">
+    <table class="table p-5 rounded">
         <thead>
 
             <tr>
@@ -19,10 +19,23 @@
                     <td>{{ $item->order->order_number ?? '#' . $item->order_id }}</td>
                     <td>{{ $item->item_id }}</td>
                     <td>{{ $item->title }}</td>
-                    <td>{{ $item->unit_amount }}</td>
+                    <td>${{ $item->unit_amount }}</td>
                     <td>{{ $item->qty }}</td>
                     <td>{{ $item->created_at }}</td>
-                    <td class="bg-warning p-3 rounded">Pending</td>
+                    <td>
+                        @php $status = $item->order->order_status ?? 'pending'; @endphp
+                        <span
+                            class="badge p-2
+        @switch($status)
+            @case('processing') bg-info text-dark @break
+            @case('shipped') bg-primary @break
+            @case('delivered') bg-success @break
+            @case('cancelled') bg-danger @break
+            @default bg-warning text-dark
+        @endswitch">
+                            {{ ucfirst($status) }}
+                        </span>
+                    </td>
 
                 </tr>
             @endforeach
