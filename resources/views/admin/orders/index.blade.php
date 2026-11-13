@@ -20,41 +20,40 @@
                 <thead>
                     <tr>
                         <th>Order-id</th>
-                        <th>Item_id</th>
-                        <th>Item Name</th>
                         <th>Amount</th>
-                        <th>Quantity</th>
                         <th>Created_at</th>
-                        <th>Type</th>
+                        <th>Customer</th>
                         <th>Order Status</th>
-                        {{-- <th>Action</th> --}}
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($data as $item)
+                    @foreach ($data as $order)
                         <tr>
-                            <td>{{ $item->order->order_number ?? '#' . $item->order_id }}</td>
-                            <td>{{ $item->item_id }}</td>
-                            <td>{{ $item->title }}</td>
-                            <td>{{ $item->unit_amount }}</td>
-                            <td>{{ $item->qty }}</td>
-                            <td>{{ $item->created_at }}</td>
-                            <td>{{ ucfirst($item->order->user->user_type ?? 'Guest') }}</td>
+                            <td>{{ $order->order_number ?? '#' . $order->id }}</td>
+                            <td>${{ $order->order_amount }}</td>
+                            <td>{{ $order->created_at }}</td>
+                            <td>{{ ucfirst($order->user->first_name ?? 'guest') }}
+                                @if (!empty($order->user->email))
+                                    <br>
+                                    <small>{{ $order->user->email }}</small>
+                                @endif
+                            </td>
                             <td>
-                                <form action="{{ route('admin.orders.status', $item->order_id) }}" method="POST"
-                                    class="d-flex gap-2">
-                                    @csrf
-                                    @method('PUT')
-                                    <select name="order_status" class="form-select form-select-sm">
-                                        @foreach (['pending', 'processing', 'shipped', 'delivered', 'cancelled'] as $status)
-                                            <option value="{{ $status }}"
-                                                {{ ($item->order->order_status ?? 'pending') === $status ? 'selected' : '' }}>
-                                                {{ ucfirst($status) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <button type="submit" class="btn btn-dark btn-sm">Update</button>
-                                </form>
+                                @if ($order->order_status == 'pending')
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                @elseif ($order->order_status == 'shipped')
+                                    <span class="badge bg-primary">Shipped</span>
+                                @elseif ($order->order_status == 'delivered')
+                                    <span class="badge bg-success">Delivered</span>
+                                @elseif ($order->order_status == 'cancelled')
+                                    <span class="badge bg-danger">Cancelled</span>
+                                @endif
+                            </td>
+                            <td>
+                                <a href="{{ route('admin.orders.show', $order->id) }}">
+                                    <i class="fa fa-eye p-2 rounded text-white fs-5" style="background: #1f2937"></i>
+                                </a>
                             </td>
                         </tr>
                     @endforeach
@@ -62,6 +61,4 @@
             </table>
         </div>
     </section>
-
-
 @endsection

@@ -49,18 +49,16 @@
                 @endif
             </button>
             @auth
-                <a href="{{ route('customer.dashboard') }}"><i class="fa-solid fa-user"></i></a>
+                <a href="{{ route('customer.dashboard') }}" class="user_avatar">
+                    {{ strtoupper(substr(Auth::user()->first_name, 0, 1)) }}
+                </a>
             @else
-                <a href="{{ route('login') }}"><i class="fa-solid fa-user"></i></a>
+                <a href="{{ route('signin.store') }}"><i class="fa-solid fa-user"></i></a>
             @endauth
         </div>
 
     </nav>
 </header>
-
-
-
-
 <div class="offcanvas offcanvas-end cart_drawer" tabindex="-1" id="cartDrawer">
     <div class="offcanvas-header">
         <h6 class="mb-0">CART ({{ $cartCount }})</h6>

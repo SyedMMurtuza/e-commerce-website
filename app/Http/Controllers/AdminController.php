@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Shop;
-use App\Models\OrderItem;
+// use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
 
@@ -21,9 +21,16 @@ class admincontroller extends Controller
 
     public function order()
     {
-        $data = OrderItem::with('order')->latest()->get();
+        $data = Order::with(['items', 'user'])->latest()->get();
 
         return view('admin.orders.index', compact('data'));
+    }
+
+    public function OrderEdit($id)
+    {
+        $order = Order::with(['items.product', 'user'])->findOrFail($id);
+
+        return view('admin.orders.detail', compact('order'));
     }
 
     public function updateStatus(Request $request, $id)

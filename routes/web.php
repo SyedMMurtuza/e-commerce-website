@@ -31,10 +31,13 @@ Route::middleware('guest')->group(function () {
     Route::post('/signup', [AuthController::class, 'signup'])->name('signup.store');
     Route::get('/login', [AuthController::class, 'loginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+    Route::get('/signin', [AuthController::class, 'signinForm'])->name('signin');
+    Route::post('/signin', [AuthController::class, 'customersignin'])->name('signin.store');
 });
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::post('/customer/logout', [AuthController::class, 'customerlogout'])->name('customer.logout');
     Route::get('/customer-dashboard', [PageController::class, 'customerDashboard'])->name('customer.dashboard');
     Route::get('/customer-dashboard/order-detail', [CustomerController::class, 'OrderDetail'])->name('customer.OrderDetai');
     Route::put('/customer-dashboard/profile', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
@@ -49,5 +52,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/shop/{id}/edit', [ProductController::class, 'edit'])->name('admin.shop.edit');
     Route::put('/admin/shop/{id}', [ProductController::class, 'update'])->name('admin.shop.update');
     Route::delete('/admin/shop/{id}', [ProductController::class, 'delete'])->name('admin.shop.delete');
+    // Route::put('/admin/orders/{id}/status', [AdminController::class, 'updateStatus'])->name('admin.orders.status');
+    Route::get('/admin/orders/{id}', [AdminController::class, 'OrderEdit'])->name('admin.orders.show');
     Route::put('/admin/orders/{id}/status', [AdminController::class, 'updateStatus'])->name('admin.orders.status');
 });

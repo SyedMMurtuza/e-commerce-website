@@ -59,6 +59,32 @@ class AuthController extends Controller
         return back()->withErrors(['email' => 'Email or Password is Incorrect.'])->onlyInput('email');
     }
 
+    public function signinForm()
+    {
+        return view('auth.signin');
+    }
+
+    public function customersignin(Request $request)
+    {
+        $credentials = $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $request->session()->regenerate();
+
+            if (Auth::user()->user_type === 'admin') {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Email or Password is Incorrect.']);
+            }
+
+            return redirect()->route('customer.dashboard');
+        }
+
+        return back()->withErrors(['email' => 'Email or Password is Incorrect.'])->onlyInput('email');
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();
@@ -66,5 +92,13 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login');
+    }
+    public function customerlogout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/signin');
     }
 }
