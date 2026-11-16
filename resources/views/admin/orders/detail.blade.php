@@ -94,6 +94,8 @@
                             </table>
                         </div>
                     </div>
+
+
                 </div>
 
                 <div class="col-lg-4">
@@ -138,6 +140,33 @@
                                 {{ $order->user->apartment }}</p>
                             <p class="mb-0 text-muted small"><strong class="text-dark">Address:</strong>
                                 {{ $order->user->address }}</p>
+                        </div>
+                    </div>
+
+                    <div class="card shadow-sm border-0 mt-4">
+                        <div class="card-header bg-white fw-semibold">Payment</div>
+                        <div class="card-body">
+                            <p class="mb-2">
+                                <strong>Method:</strong>
+                                @if ($order->payment_method === 'cod')
+                                    Cash on Delivery
+                                @else
+                                    Bank Transfer
+                                @endif
+                            </p>
+
+                            @if ($order->payment_method === 'bank_transfer')
+                                <p class="mb-2"><strong>Screenshot:</strong></p>
+
+                                @if ($order->payment_screenshot)
+                                    <a href="{{ asset('storage/' . $order->payment_screenshot) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $order->payment_screenshot) }}"
+                                            alt="Payment Screenshot" class="img-fluid rounded border">
+                                    </a>
+                                @else
+                                    <p class="text-danger small mb-0">Screenshot Didn't Upload.</p>
+                                @endif
+                            @endif
                         </div>
                     </div>
 

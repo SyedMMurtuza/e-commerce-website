@@ -33,26 +33,36 @@ class CheckoutController extends Controller
         }
 
         $data = $request->validate([
-            'email'      => 'required|email|max:100',
-            'first_name' => 'required|max:100',
-            'last_name'  => 'required|max:100',
-            'address'    => 'required|max:255',
-            'apartment'  => 'nullable|max:255',
-            'city'       => 'required|max:255',
-            'zip_code'   => 'required|max:20',
-            'country'    => 'required|max:100',
+            'email'              => 'required|email|max:100',
+            'first_name'         => 'required|max:100',
+            'last_name'          => 'required|max:100',
+            'address'            => 'required|max:255',
+            'apartment'          => 'nullable|max:255',
+            'city'               => 'required|max:255',
+            'zip_code'           => 'required|max:20',
+            'country'            => 'required|max:100',
+            'payment_method'     => 'required|in:cod,bank_transfer',
+            'payment_screenshot' => 'required_if:payment_method,bank_transfer|nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'payment_screenshot.required_if' => 'Uploading a payment screenshot is required for bank transfer.',
         ]);
 
-        $order = DB::transaction(function () use ($data, $cart) {
+
+        $proofPath = null;
+        if ($data['payment_method'] === 'bank_transfer' && $request->hasFile('payment_screenshot')) {
+            $proofPath = $request->file('payment_screenshot')->store('payment_screenshots', 'public');
+        }
+
+        $order = DB::transaction(function () use ($data, $cart, $proofPath) {
 
             $user = User::firstOrNew(['email' => $data['email']]);
             $user->first_name = $data['first_name'];
             $user->last_name  = $data['last_name'];
-            $user->address   = $data['address'];
-            $user->apartment = $data['apartment'] ?? null;
-            $user->city      = $data['city'];
-            $user->zip_code  = $data['zip_code'];
-            $user->country   = $data['country'];
+            $user->address    = $data['address'];
+            $user->apartment  = $data['apartment'] ?? null;
+            $user->city       = $data['city'];
+            $user->zip_code   = $data['zip_code'];
+            $user->country    = $data['country'];
             $user->save();
 
             $total = 0;
@@ -61,9 +71,11 @@ class CheckoutController extends Controller
             }
 
             $order = Order::create([
-                'order_number' => $this->generateOrderNumber(),
-                'order_amount' => $total,
-                'user_id'      => $user->id,
+                'order_number'       => $this->generateOrderNumber(),
+                'order_amount'       => $total,
+                'user_id'            => $user->id,
+                'payment_method'     => $data['payment_method'],
+                'payment_screenshot' => $proofPath,
             ]);
 
             foreach ($cart as $productId => $item) {
@@ -74,9 +86,8 @@ class CheckoutController extends Controller
                     'unit_amount' => $item['price'],
                     'qty'         => $item['qty'],
                     'amount'      => $item['price'] * $item['qty'],
-
-
                 ]);
+
                 $product = Shop::find($productId);
                 $product->quantity = $product->quantity - $item['qty'];
                 $product->save();
@@ -84,8 +95,6 @@ class CheckoutController extends Controller
 
             return $order;
         });
-
-
 
         session()->forget('cart');
 

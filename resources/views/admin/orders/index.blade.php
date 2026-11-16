@@ -24,6 +24,7 @@
                         <th>Created_at</th>
                         <th>Customer</th>
                         <th>Order Status</th>
+                        <th>Payment Method</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -48,6 +49,13 @@
                                     <span class="badge bg-success">Delivered</span>
                                 @elseif ($order->order_status == 'cancelled')
                                     <span class="badge bg-danger">Cancelled</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($order->payment_method === 'cod')
+                                    Cash on Delivery
+                                @else
+                                    Bank Transfer
                                 @endif
                             </td>
                             <td>

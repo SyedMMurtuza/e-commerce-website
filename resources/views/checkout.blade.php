@@ -60,7 +60,7 @@
                                 @endforeach
                             </div>
                         @endif
-                        <form action="{{ route('checkout.store') }}" method="POST">
+                        <form action="{{ route('checkout.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
                             <div class="d-flex justify-content-between align-items-center mb-2">
@@ -137,6 +137,41 @@
                                 <label class="form-check-label" for="news_text">Text me with news and offers</label>
                             </div> --}}
 
+                            <div class="mb-4">
+                                <h5 class="mb-3">Payment Method</h5>
+
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="payment_method"
+                                        id="cod" value="cod"
+                                        {{ old('payment_method', 'cod') === 'cod' ? 'checked' : '' }}>
+                                    <label class="form-check-label text-dark" for="cod">Cash on Delivery</label>
+                                </div>
+
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="payment_method"
+                                        id="bank_transfer" value="bank_transfer"
+                                        {{ old('payment_method') === 'bank_transfer' ? 'checked' : '' }}>
+                                    <label class="form-check-label text-dark" for="bank_transfer">Bank
+                                        Transfer</label>
+                                </div>
+
+                                <div id="bank-details" class="border rounded p-3 mt-3 d-none"
+                                    style="background-color: rgb(216 216 216)">
+                                    <p class="mb-1"><strong>Bank Name:</strong> ABC</p>
+                                    <p class="mb-1"><strong>Account Title:</strong> AllBirds</p>
+                                    <p class="mb-1"><strong>Account No:</strong> 0000-0000000000</p>
+                                    <p class="mb-3"><strong>IBAN:</strong> 00HABB0000000000000000</p>
+
+                                    <label for="payment_screenshot" class="form-label">Payment Screenshot</label>
+                                    <input type="file" class="form-control" name="payment_screenshot"
+                                        id="payment_screenshot" accept="image/*">
+                                    @error('payment_screenshot')
+                                        <small class="text-danger">{{ $message }}</small>
+                                    @enderror
+                                    <small><span>Maximun 5mb file size</span></small>
+                                </div>
+                            </div>
+
                             <button type="submit" class="btn btn-dark w-100 py-3"
                                 {{ empty($cart) ? 'disabled' : '' }}>
                                 Pay Now
@@ -190,3 +225,17 @@
 </body>
 
 </html>
+
+
+<script>
+    const bankDetails = document.getElementById('bank-details');
+    const radios = document.querySelectorAll('input[name="payment_method"]');
+
+    function toggleBank() {
+        const selected = document.querySelector('input[name="payment_method"]:checked').value;
+        bankDetails.classList.toggle('d-none', selected !== 'bank_transfer');
+    }
+
+    radios.forEach(r => r.addEventListener('change', toggleBank));
+    toggleBank();
+</script>

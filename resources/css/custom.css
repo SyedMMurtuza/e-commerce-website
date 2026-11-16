@@ -665,7 +665,7 @@ span.grid_badge {
 .login_form .form-control {
     background: #1b1b1b;
     border: 1px solid #333;
-    color: #fff;
+    color: #000000;
     padding: 12px 14px;
     border-radius: 8px;
 }
@@ -676,7 +676,7 @@ span.grid_badge {
 
 .login_form .form-control:focus {
     background: #1b1b1b;
-    color: #fff;
+    color: #000000;
     border-color: #e3ff13;
     box-shadow: 0 0 0 3px rgba(227, 255, 19, 0.15);
 }

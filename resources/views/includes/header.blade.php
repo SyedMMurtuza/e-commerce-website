@@ -94,7 +94,13 @@
                 <span>Subtotal</span>
                 <span>${{ number_format($cartTotal, 2) }}</span>
             </div>
-            <a href="{{ route('checkout') }}" class="btn btn-dark w-100">Checkout</a>
+
+            @if (!empty($cart))
+                <a href="{{ route('checkout') }}" class="btn btn-dark w-100">Checkout</a>
+            @else
+                <a href="#" class="btn btn-dark w-100 disabled" aria-disabled="true">Checkout</a>
+            @endif
+
         </div>
     </div>
 </div>
